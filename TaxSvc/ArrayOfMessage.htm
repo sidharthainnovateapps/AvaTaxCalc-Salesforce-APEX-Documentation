@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">TaxSvcSoap.ArrayOfMessage Class</h1>
+<p>
+The ArrayOfMessage class is a wrapper for an array of 0 or more Message objects.  Not Meant to be instantiated directly, and is 
+instead embedded in Result classes, which are returned from API calls (such as TaxSvc.PingResult).
+</p>
+<p class="CodeSample">
+global class ArrayOfMessage<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.Message[] Message;<br />
+}<br /></p><hr />
+<p class="CodeSample">
+<b>Example:</b><br /><br />
+AVASFSDK.TaxSvc.TaxSvcSoap TaxSvc = <br />&nbsp&nbsp&nbsp&nbsp new AVASFSDK.TaxSvc.TaxSvcSoap('https://development.avalara.net');<br />
+TaxSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+TaxSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+TaxSvc.Profile.Client = 'AddressPingDemo,1,0';<br />
+AVASFSDK.TaxSvc.PingResult pres = null;<br />
+String SampleResult = '';<br />
+<br />
+try <br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp pres = TaxSvc.Ping(' ');<br />
+}<br />
+&nbsp&nbsp&nbsp&nbsp catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Test Connect Excepted: ' + ex.getmessage();<br />
+&nbsp&nbsp&nbsp&nbsp return null;<br />
+}<br />
+if(pres.ResultCode == 'Success')<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'TaxSvc Test Connect Successful - Avalara Service Version: ' + pres.Version;<br />
+}<br />
+else<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'TaxSvc Test Connect Returned Other Than Success: ' + pres.ResultCode + <br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ' : ' + pres.Messages.Message[0].Name + ' : ' + pres.Messages.Message[0].Summary;<br />
+}<br />
+</p> 
+</body>
+</html>

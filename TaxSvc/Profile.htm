@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">TaxSvc.Profile Class</h1>
+<p>
+The Profile Object is embedded in the TaxSvcSoap object and is instantiated when the TaxSvcSoap object is constructed. 
+The Client field of the Profile Object is the only field that must have a value other than the default.  It should be a string of 
+the form "YourAppName,Maj Version, Minor Version".  The other fields are pre-populated and changing their values is not reccomended.  
+The data in the Profile object can help trace calls to the Avalara service for debugging purposes.
+</p>
+<p class="CodeSample">
+global class Profile<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp global String Name = 'Apex2AvalaraSDK';<br />
+&nbsp&nbsp&nbsp&nbsp global String Client;<br />
+&nbsp&nbsp&nbsp&nbsp global String Adapter = 'Apex2AvalaraSDK';<br />
+&nbsp&nbsp&nbsp&nbsp global String Machine = 'SFCloud';<br />
+}<br /></p><hr />
+<p class="CodeSample"
+<b>Example:</b><br /><br />
+AVASFSDK.TaxSvc.TaxSvcSoap TaxSvc = <br />&nbsp&nbsp&nbsp&nbsp new AVASFSDK.TaxSvc.TaxSvcSoap('https://development.avalara.net');<br />
+TaxSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+TaxSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+<b>TaxSvc.Profile.Client = 'TaxPingDemo,1,0';</b><br />
+AVASFSDK.TaxSvc.PingResult pres = null;<br />
+String SampleResult = '';<br />
+<br />
+try <br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp pres = TaxSvc.Ping(' ');<br />
+}<br />
+&nbsp&nbsp&nbsp&nbsp catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Test Connect Excepted: ' + ex.getmessage();<br />
+&nbsp&nbsp&nbsp&nbsp return null;<br />
+}<br />
+if(pres.ResultCode == 'Success')<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'TaxSvc Test Connect Successful - Avalara Service Version: ' + pres.Version;<br />
+}<br />
+else<br />
+{<br />
+// pres.Messages.Message[0] = Message Object<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'TaxSvc Test Connect Returned Other Than Success: ' + pres.ResultCode + <br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ' : ' + pres.Messages.Message[0].Name + ' : ' + pres.Messages.Message[0].Summary;<br />
+}<br />
+</p> 
+</body>
+</html>

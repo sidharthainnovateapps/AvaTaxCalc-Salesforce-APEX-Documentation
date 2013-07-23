@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">TaxSvcSoap.GetTax API</h1>
+<p>
+Signature: TaxSvc.GetTaxResult TaxSvcSoap.GetTax(TaxSvc.GetTaxRequest);<br /><br />
+
+The TaxSvcSoap.GetTax API is the API used to calculate sales tax for an invoice.  The GetTaxRequest class passed as the parameter encapsulates the 
+invoice data.<br /><br />
+A Successful call returns the Total Tax Amount, and the Tax Amount and Rate for each line.</p><hr />
+<p class="CodeSample">
+<b>Example:</b><br /><br />
+AVASFSDK.TaxSvc.TaxSvcSoap taxSvc = new AVASFSDK.TaxSvc.TaxSvcSoap('https://development.avalara.net');<br />
+taxSvc.Security = new AVASFSDK.TaxSvc.Security();<br />
+taxSvc.Security.UsernameToken.Username = '[Your UserName/Account Number Here]';<br />
+taxSvc.Security.UsernameToken.Password = '[your Password/LicenseKey Here]';<br />
+taxSvc.Profile = new AVASFSDK.TaxSvc.Profile();<br />
+taxSvc.Profile.Client = 'GetTaxDemo,1,0';<br />
+<br />
+AVASFSDK.TaxSvc.GetTaxRequest gtreq = new AVASFSDK.TaxSvc.GetTaxRequest();<br />
+gtreq.DocCode = '[DocCode (Invoice Number) Here]';<br />
+// SalesOrder, SalesInvoice, ReturnOrder, ReturnInvoice, PurchaseOrder, PurchaseInvoice<br />
+gtreq.DocType = 'SalesInvoice';<br />
+gtreq.CustomerCode = 'Customer Number One';<br />
+gtreq.CompanyCode = '[Your Company Code Here]';<br />
+// Document (default), Line, Tax<br />
+gtreq.DetailLevel = 'Tax';<br />
+<br />
+AVASFSDK.TaxSvc.BaseAddress orgAddr = new AVASFSDK.TaxSvc.BaseAddress();<br />
+orgAddr.AddressCode = 'Origin';<br />
+orgAddr.Line1 = '121 N La Salle St';<br />
+// orgAddr.Line2 = '[adress line 2]';<br />
+// orgAddr.Line3 = '[address line 3]';<br />
+orgAddr.City = 'Chicago';<br />
+orgAddr.Region = 'IL';<br />
+orgAddr.PostalCode = '60602-1202';<br />
+<br />
+AVASFSDK.TaxSvc.BaseAddress dstAddr = new AVASFSDK.TaxSvc.BaseAddress();<br />
+dstAddr.AddressCode = 'Destination';<br />
+dstAddr.Line1 = '1060 W Addison St';<br />
+// dstAddr.Line2 = '[adress line 2]';<br />
+// dstAddr.Line3 = '[address line 3]';<br />
+dstAddr.City = 'Chicago';<br />
+dstAddr.Region = 'IL';<br />
+dstAddr.PostalCode = '60613-4566';<br />
+<br />
+gtreq.Addresses = new AVASFSDK.TaxSvc.ArrayOfBaseAddress();<br />
+gtreq.Addresses.BaseAddress = new AVASFSDK.TaxSvc.BaseAddress[2];<br />
+<br />
+<br />
+gtreq.Addresses.BaseAddress[0] = orgAddr;<br />
+gtreq.Addresses.BaseAddress[1] = dstAddr;<br />
+<br />
+gtreq.OriginCode = orgAddr.AddressCode;<br />
+gtreq.DestinationCode = dstAddr.AddressCode;<br />
+<br />
+gtreq.Lines = new AVASFSDK.TaxSvc.ArrayOfLine();<br />
+gtreq.Lines.Line = new AVASFSDK.TaxSvc.Line[2];<br />
+gtreq.Lines.Line[0] = new AVASFSDK.TaxSvc.Line();<br />
+gtreq.Lines.Line[1] = new AVASFSDK.TaxSvc.Line();<br />
+<br />
+gtreq.Lines.Line[0].No = 'Line1';<br />
+gtreq.Lines.Line[0].ItemCode = 'ItemCode1';<br />
+gtreq.Lines.Line[0].Description = 'ItemCode1 Description';<br />
+<br />
+gtreq.Lines.Line[1].No = 'Line2';<br />
+gtreq.Lines.Line[1].ItemCode = 'ItemCode2';<br />
+gtreq.Lines.Line[1].Description = 'ItemCode2 Description';<br />
+<br />
+gtreq.Lines.Line[0].Amount = 1500.00;<br />
+gtreq.Lines.Line[1].Amount = 2500.00;<br />
+gtreq.Lines.Line[0].Qty = 1.0;<br />
+gtreq.Lines.Line[1].Qty = 1.0;<br />
+gtreq.DocDate = Date.Today();<br />
+gtreq.Commit_x=false;<br />
+ <br />
+AVASFSDK.TaxSvc.GetTaxResult gtres = null;<br />
+String SampleResult = '';<br />
+<br />
+try<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp gtres = taxSvc.GetTax(gtreq);<br />
+<br />
+&nbsp&nbsp&nbsp&nbsp if(gtres.ResultCode == 'Success')<br />
+&nbsp&nbsp&nbsp&nbsp {<br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp SampleResult = 'GetTax Succeeded - Total Tax: ' + gtres.TotalTax;<br />
+&nbsp&nbsp&nbsp&nbsp }<br />
+&nbsp&nbsp&nbsp&nbsp else<br />
+&nbsp&nbsp&nbsp&nbsp {<br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp SampleResult = 'GetTax Returned Other Than Success: ' + gtres.ResultCode + ' : ' +<br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp gtres.Messages.Message[0].Name + ' : ' + gtres.Messages.Message[0].Summary;<br />
+&nbsp&nbsp&nbsp&nbsp }<br />
+}<br />
+catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'GetTax Threw an Exception: ' + ex.getmessage();<br />
+}<br />
+</p> </body>
+</html>

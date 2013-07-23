@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">TaxSvcSoap Class</h1>
+<p>
+The TaxSvcSoap Object is the proxy interface for the Avalara Tax Service.  The constructor takes one string
+argument, which is the service URL your method calls will reference.  All Tax Service APIs are methods of the 
+TaxSvcSoap object.<br /><br />
+Note that the embedded TaxSvc.Profile and TaxSvc.Security objects are instantiated automatically when the 
+TaxSvcSoap Object is instantiated (no need to "new" Profile or Security).<br /><br />
+The embedded TaxSvc.AuditMessage object is not instantiated automatically, and is initially set to null, as it is only needed for some API calls.
+</p>
+<p class="CodeSample">
+global class TaxSvcSoap<br />{<br />
+// data members<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.AuditMessage AuditMessage;<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.Profile Profile;<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.Security Security;<br />
+// methods<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvcSoap(String SvcURL);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.IsAuthorizedResult IsAuthorized(String Operations);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.PostTaxResult PostTax(TaxSvc.PostTaxRequest PostTaxRequest);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.CancelTaxResult CancelTax(TaxSvc.CancelTaxRequest CancelTaxRequest);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.GetTaxHistoryResult GetTaxHistory(TaxSvc.GetTaxHistoryRequest GetTaxHistoryRequest);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.PingResult Ping(String Message);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.ApplyPaymentResult ApplyPayment(TaxSvc.ApplyPaymentRequest ApplyPaymentRequest);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.GetTaxResult GetTax(TaxSvc.GetTaxRequest GetTaxRequest);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.AdjustTaxResult AdjustTax(TaxSvc.AdjustTaxRequest AdjustTaxRequest);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.ReconcileTaxHistoryResult ReconcileTaxHistory(TaxSvc.ReconcileTaxHistoryRequest ReconcileTaxHistoryRequest);<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.CommitTaxResult CommitTax(TaxSvc.CommitTaxRequest CommitTaxRequest);<br />
+}<br />
+</p><hr />
+<p class="CodeSample"
+<b>Example:</b><br /><br />
+AVASFSDK.TaxSvc.TaxSvcSoap taxSvc =<br />&nbsp&nbsp&nbsp&nbsp new AVASFSDK.TaxSvc.TaxSvcSoap('https://development.avalara.net');<br />
+taxSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+taxSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+taxSvc.Profile.Client = 'TaxPingDemo,1,0';
+</p> 
+</body>
+</html>

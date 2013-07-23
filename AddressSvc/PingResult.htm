@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">AddressSvc.PingResult Class</h1>
+<p>
+The PingResult Object is the return value of the AddressSvcSoap.Ping API.  ResultCode indicates success or failure of the operation
+(Possible Values for ResultCode are: 'Success','Error','Warning','Exception').  If the Result is success, version contains a string 
+indicating the current version of the Avalara service.  If the Result is not success 
+the Messages array contains information about why the call failed.
+</p>
+<p class="CodeSample">
+global class PingResult<br /> 
+{<br />
+&nbsp&nbsp&nbsp&nbsp global String Version;<br />
+&nbsp&nbsp&nbsp&nbsp global String TransactionId;<br />
+&nbsp&nbsp&nbsp&nbsp global String ResultCode;<br />
+&nbsp&nbsp&nbsp&nbsp global AddressSvc.ArrayOfMessage Messages;<br />
+}<br /></p><hr />
+<p class="CodeSample"
+<b>Example:</b><br /><br />
+AVASFSDK.AddressSvc.AddressSvcSoap addressSvc = <br />&nbsp&nbsp&nbsp&nbsp new AVASFSDK.AddressSvc.AddressSvcSoap('https://development.avalara.net');<br />
+addressSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+addressSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+addressSvc.Profile.Client = 'AddressPingDemo,1,0';<br />
+AVASFSDK.AddressSvc.PingResult pres = null;<br />
+String SampleResult = '';<br />
+<br />
+try <br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp pres = addressSvc.Ping(' ');<br />
+}<br />
+&nbsp&nbsp&nbsp&nbsp catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Test Connect Excepted: ' + ex.getmessage();<br />
+&nbsp&nbsp&nbsp&nbsp return null;<br />
+}<br />
+if(pres.ResultCode == 'Success')<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'AddressSvc Test Connect Successful - Avalara Service Version: ' + pres.Version;<br />
+}<br />
+else<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'AddressSvc Test Connect Returned Other Than Success: ' + pres.ResultCode + <br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ' : ' + pres.Messages.Message[0].Name + ' : ' + pres.Messages.Message[0].Summary;<br />
+}<br />
+</p> 
+</body>
+</html>

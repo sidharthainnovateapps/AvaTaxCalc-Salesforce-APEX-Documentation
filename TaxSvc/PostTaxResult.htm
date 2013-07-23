@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">TaxSvc.PostTaxResult Class</h1>
+<p>
+The PostTaxResult Object is the return value of the TaxSvcSoap.PostTax API.  ResultCode indicates success or failure of the operation
+(Possible Values for ResultCode are: 'Success','Error','Warning','Exception'). If the Result is success, the invoice was successfully found and posted.  
+If Result is other than success, the Messages array contains information about why the call to PostTax failed.
+</p>
+<p class="CodeSample">
+global class PostTaxResult {<br />
+&nbsp&nbsp&nbsp&nbsp public String DocId;<br />
+&nbsp&nbsp&nbsp&nbsp global String TransactionId;<br />
+&nbsp&nbsp&nbsp&nbsp global String ResultCode;<br />
+&nbsp&nbsp&nbsp&nbsp global TaxSvc.ArrayOfMessage Messages;<br />
+}<br /></p><hr />
+<p class="CodeSample">
+<b>Example:</b><br /><br />
+AVASFSDK.TaxSvc.TaxSvcSoap taxSvc = new AVASFSDK.TaxSvc.TaxSvcSoap('https://development.avalara.net');<br />
+taxSvc.Security = new AVASFSDK.TaxSvc.Security();<br />
+taxSvc.Security.UsernameToken.Username = '[Your UserName/Account Number Here]';<br />
+taxSvc.Security.UsernameToken.Password = '[your Password/LicenseKey Here]';<br />
+taxSvc.Profile = new AVASFSDK.TaxSvc.Profile();<br />
+taxSvc.Profile.Client = 'PostTaxDemo,1,0';<br />
+<br />
+AVASFSDK.TaxSvc.PostTaxRequest ptreq = new AVASFSDK.TaxSvc.PostTaxRequest();<br />
+// unique identifiers to locate the document to be posted:<br />
+// DocCode+DocType+CompanyCode<br />
+ptreq.DocCode = '[DocCode (Invoice Number) Here]';<br />
+ptreq.DocType = 'SalesInvoice';<br />
+ptreq.CompanyCode = '[Your Company Code Here]';<br />
+// TotalAmount and TotalTax must match same for Invoice Being Posted. Used for Reconciliation.<br />
+ptreq.TotalAmount = 4000.00;<br />
+ptreq.TotalTax = 372.00;<br />
+<br />
+String ResultMessage = 'Post Tax Not Called Yet';<br />
+AVASFSDK.TaxSvc.PostTaxResult ptres = null;<br />
+<br />
+try<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp ptres = taxSvc.PostTax(ptreq);<br />
+<br />
+&nbsp&nbsp&nbsp&nbsp if(ptres.ResultCode == 'Success')<br />
+&nbsp&nbsp&nbsp&nbsp {<br />
+&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp ResultMessage = 'PostTax Succeeded';<br />
+&nbsp&nbsp&nbsp&nbsp }<br />
+&nbsp&nbsp&nbsp&nbsp else<br />
+&nbsp&nbsp&nbsp&nbsp {<br />
+&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp ResultMessage = 'PostTax Returned Other Than Success: ' +<br />
+&nbsp&nbsp&nbsp&nbsp ptres.ResultCode + ' : ' + ptres.Messages.Message[0].Name +<br />
+&nbsp&nbsp&nbsp&nbsp ' : ' + ptres.Messages.Message[0].Summary;<br />
+&nbsp&nbsp&nbsp&nbsp }<br />
+}<br />
+catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp ResultMessage = 'PostTax Threw an Exception: ' + ex.getmessage();<br />
+}<br />
+</p> </body>
+</html>

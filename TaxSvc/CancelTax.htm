@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">TaxSvcSoap.CancelTax API</h1>
+<p>
+Signature: TaxSvc.CancelTaxResult TaxSvcSoap.CancelTax(TaxSvc.CancelTaxRequest);<br /><br />
+
+The TaxSvcSoap.CancelTax API is the API used to void a previously committed invoice.  The CancelTaxRequest parameter contains the DocCode, 
+DocType, and CompanyCode to identify the invoice to void.</p><hr />
+<p class="CodeSample">
+<b>Example:</b><br /><br />
+AVASFSDK.TaxSvc.TaxSvcSoap taxSvc = new AVASFSDK.TaxSvc.TaxSvcSoap('https://development.avalara.net');<br />
+taxSvc.Security = new AVASFSDK.TaxSvc.Security();<br />
+taxSvc.Security.UsernameToken.Username = '[Your UserName/Account Number Here]';<br />
+taxSvc.Security.UsernameToken.Password = '[your Password/LicenseKey Here]';<br />
+taxSvc.Profile = new AVASFSDK.TaxSvc.Profile();<br />
+taxSvc.Profile.Client = 'CancelTaxDemo,1,0';<br />
+<br />
+AVASFSDK.TaxSvc.CancelTaxRequest ctreq = new AVASFSDK.TaxSvc.CancelTaxRequest();<br />
+// unique identifiers to locate the document to be Canceled:<br />
+// DocCode+DocType+CompanyCode<br />
+ctreq.DocCode = '[DocCode (Invoice Number) Here]';<br />
+ctreq.DocType = 'SalesInvoice';<br />
+ctreq.CompanyCode = '[Your Company Code Here]';<br />
+// CancelCode = Unspecified, PostFailed, DocDeleted, DocVoided,AdjustmentCancelled<br />
+ctreq.CancelCode = 'DocVoided';<br />
+<br />
+String ResultMessage = '';<br />
+AVASFSDK.TaxSvc.CancelTaxResult ctres = null;<br />
+<br />
+try<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp ctres = taxSvc.CancelTax(ctreq);<br />
+<br />
+&nbsp&nbsp&nbsp&nbsp if(ctres.ResultCode == 'Success')<br />
+&nbsp&nbsp&nbsp&nbsp {<br />
+&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp ResultMessage = 'CancelTax Succeeded';<br />
+&nbsp&nbsp&nbsp&nbsp }<br />
+&nbsp&nbsp&nbsp&nbsp else<br />
+&nbsp&nbsp&nbsp&nbsp {<br />
+&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp ResultMessage = 'CancelTax Returned Other Than Success: ' +<br />
+&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp ctres.ResultCode + ' : ' + ctres.Messages.Message[0].Name +<br /> 
+&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp ' : ' + ctres.Messages.Message[0].Summary;<br />
+&nbsp&nbsp&nbsp&nbsp }<br />
+}<br />
+catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp ResultMessage = 'CancelTax Threw an Exception: ' + ex.getmessage();<br />
+}<br />
+</p> </body>
+</html>

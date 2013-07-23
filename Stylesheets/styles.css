@@ -1,0 +1,23 @@
+	.Centered
+	{
+		text-align:center;
+	}
+	
+	.ListItems
+	{
+		font-family:Arial Rounded MT Bold;
+		font-size:large;
+	}
+	
+	.CodeSample
+	{
+		font-family:Courier New;
+		font-size:medium;
+		margin-left:10
+	}
+	
+	.BannerPrint
+	{
+		font-family:Arial Rounded MT Bold;
+		font-size:larger;
+	}

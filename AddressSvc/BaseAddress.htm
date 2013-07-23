@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">AddressSvc.BaseAddress Class</h1>
+<p>
+The BaseAddress object is embedded in the ValidteRequest class, and encapsulates an address.
+</p>
+<p class="CodeSample">
+global class BaseAddress<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp global String AddressCode;<br />
+&nbsp&nbsp&nbsp&nbsp global String Line1;<br />
+&nbsp&nbsp&nbsp&nbsp global String Line2;<br />
+&nbsp&nbsp&nbsp&nbsp global String Line3;<br />
+&nbsp&nbsp&nbsp&nbsp global String City;<br />
+&nbsp&nbsp&nbsp&nbsp global String Region;<br />
+&nbsp&nbsp&nbsp&nbsp global String PostalCode;<br />
+&nbsp&nbsp&nbsp&nbsp global String Country;<br />
+&nbsp&nbsp&nbsp&nbsp global Integer TaxRegionId;<br />
+}<br /></p><hr />
+<p class="CodeSample"
+<b>Example:</b><br /><br />
+AVASFSDK.AddressSvc.AddressSvcSoap addressSvc =<br />
+&nbsp&nbsp&nbsp&nbsp new AVASFSDK.AddressSvc.AddressSvcSoap('https://development.avalara.net');<br />
+addressSvc.Security = new AVASFSDK.AddressSvc.Security();<br />
+addressSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+addressSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+addressSvc.Profile.Client = 'ValidateDemo,1,0';<br />
+<br />
+AVASFSDK.AddressSvc.ValidateRequest vreq = new AVASFSDK.AddressSvc.ValidateRequest();<br />
+vreq.Address = new <b>AVASFSDK.AddressSvc.BaseAddress();</b><br />
+vreq.Address.TaxRegionId=0;<br />
+vreq.Coordinates = false;<br />
+vreq.Taxability=false;<br />
+vreq.TextCase='Mixed';<br />
+String SampleResult;<br />
+<br />
+vreq.Address.Line1 = '1060 W. Addison';<br />
+vreq.Address.City = 'chicago';<br />
+vreq.Address.Region = 'il';<br />
+<br />     
+AVASFSDK.AddressSvc.ValidateResult vres = null;<br />
+<br />
+try<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp vres=addressSvc.Validate(vreq);<br />
+}<br />
+catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Address Validation Excepted: ' + ex.getmessage();<br />
+}<br />
+<br />
+if(vres.ResultCode == 'Success')<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Success.  Validated Address: ' + vres.ValidAddresses.ValidAddress[0].Line1 + ' ' + vres.ValidAddresses.ValidAddress[0].Line4;<br />
+}<br />
+else<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Address Validation Returned Other Than Success: ' + vres.ResultCode + <br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ' : ' + vres.Messages.Message[0].Name + ' : ' + vres.Messages.Message[0].Summary;<br />
+}<br />
+</p> </body>
+</html>

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">AddressSvc.IsAuthorizedResult Class</h1>
+<p>
+The IsAuthorizedResult Object is the return value of the AddressSvcSoap.IsAuthorized API.  ResultCode indicates success or failure of the operation
+(Possible Values for ResultCode are: 'Success','Error','Warning','Exception'). If the Result is success, Expires is the Date the account expires.  
+If the Result is not success the Messages array contains information about why the call failed.
+</p>
+<p class="CodeSample">
+global class IsAuthorizedResult<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp global String Operations;<br />
+&nbsp&nbsp&nbsp&nbsp global DateTime Expires;<br />
+&nbsp&nbsp&nbsp&nbsp global String TransactionId;<br />
+&nbsp&nbsp&nbsp&nbsp global String ResultCode;<br />
+&nbsp&nbsp&nbsp&nbsp global AddressSvc.ArrayOfMessage Messages;<br />
+}<br /></p><hr />
+<p class="CodeSample">
+<b>Example:</b><br /><br />
+AVASFSDK.AddressSvc.AddressSvcSoap addressSvc =<br />
+&nbsp&nbsp&nbsp&nbsp new AVASFSDK.AddressSvc.AddressSvcSoap('https://development.avalara.net');<br />
+addressSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+addressSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+addressSvc.Profile.Client = 'AddressSvcIsAuthorizedDemo,1,0';<br />
+AVASFSDK.AddressSvc.IsAuthorizedResult iares = null;<br />
+String SampleResult = '';<br />
+<br />
+try<br /> 
+{<br />
+&nbsp&nbsp&nbsp&nbsp iares = addressSvc.IsAuthorized('IsAuthorized,Validate');<br />
+}<br />
+catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'AddressSvc Test Connect Excepted: ' + ex.getmessage();<br />
+&nbsp&nbsp&nbsp&nbsp return null;<br />
+}<br />
+if(iares.ResultCode == 'Success')<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'AddressSvc Test Connect Successful. Account Expiration: ' + iares.Expires.format();<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult += ' Requested Operations That are Authorized for This Account: " + iares.Operations;<br />
+}<br />
+else<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'AddressSvc Test Connect Returned Other Than Success: ' + iares.ResultCode +<br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ' : ' + iares.Messages.Message[0].Name + ' : ' + iares.Messages.Message[0].Summary;<br />
+}<br />
+</p> </body>
+</html>

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">AddressSvcSoap.Ping API</h1>
+<p>
+Signature: AddressSvc.PingResult AddressSvcSoap.Ping(String Message);<br /><br />
+The AddressSvcSoap.Ping API is used to validate credentials, internet connection, and availability of the Avalara Service.  
+A Successful call with valid credentials returns the Version Number of the Avalara Service.  The Message parameter has no
+effect on the API or result, and is reserved for future use.</p><hr />
+<p class="CodeSample">
+<b>Example:</b><br /><br />
+AVASFSDK.AddressSvc.AddressSvcSoap addressSvc = <br />&nbsp&nbsp&nbsp&nbsp new AVASFSDK.AddressSvc.AddressSvcSoap('https://development.avalara.net');<br />
+addressSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+addressSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+addressSvc.Profile.Client = 'AddressPingDemo,1,0';<br />
+AVASFSDK.AddressSvc.PingResult pres = null;<br />
+String SampleResult = '';<br />
+<br />
+try <br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp pres = addressSvc.Ping(' ');<br />
+}<br />
+&nbsp&nbsp&nbsp&nbsp catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Test Connect Excepted: ' + ex.getmessage();<br />
+&nbsp&nbsp&nbsp&nbsp return null;<br />
+}<br />
+if(pres.ResultCode == 'Success')<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'AddressSvc Test Connect Successful - Avalara Service Version: ' + pres.Version;<br />
+}<br />
+else<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'AddressSvc Test Connect Returned Other Than Success: ' + pres.ResultCode + <br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ' : ' + pres.Messages.Message[0].Name + ' : ' + pres.Messages.Message[0].Summary;<br />
+}<br />
+</p> 
+</body>
+</html>

@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">AddressSvcSoap.ArrayOfValidAddress Class</h1>
+<p>
+The ArrayOfValidAddress class is a wrapper for an array of 0 or more ValidAddress objects.  Not Meant to be instantiated directly, and is 
+instead embedded in the ValidateResult Class, as returned from the API AddresssvcSoap.Validate.
+</p>
+<p class="CodeSample">
+global class ArrayOfValidAddress<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp global AddressSvc.ValidAddress[] ValidAddress;<br />
+}<br /></p><hr />
+<p class="CodeSample">
+<b>Example:</b><br /><br />
+AVASFSDK.AddressSvc.AddressSvcSoap addressSvc =<br />
+&nbsp&nbsp&nbsp&nbsp new AVASFSDK.AddressSvc.AddressSvcSoap('https://development.avalara.net');<br />
+addressSvc.Security = new AVASFSDK.AddressSvc.Security();<br />
+addressSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+addressSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+addressSvc.Profile.Client = 'ValidateDemo,1,0';<br />
+<br />
+AVASFSDK.AddressSvc.ValidateRequest vreq = new AVASFSDK.AddressSvc.ValidateRequest();<br />
+vreq.Address = new AVASFSDK.AddressSvc.BaseAddress();<br />
+vreq.Address.TaxRegionId=0;<br />
+vreq.Coordinates = false;<br />
+vreq.Taxability=false;<br />
+vreq.TextCase='Mixed';<br />
+String SampleResult;<br />
+<br />
+vreq.Address.Line1 = '1060 W. Addison';<br />
+vreq.Address.City = 'chicago';<br />
+vreq.Address.Region = 'il';<br />
+<br />     
+AVASFSDK.AddressSvc.ValidateResult vres = null;<br />
+<br />
+try<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp vres=addressSvc.Validate(vreq);<br />
+}<br />
+catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Address Validation Excepted: ' + ex.getmessage();<br />
+}<br />
+<br />
+if(vres.ResultCode == 'Success')<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Success.  Validated Address: ' + vres.ValidAddresses.ValidAddress[0].Line1 + ' ' + vres.ValidAddresses.ValidAddress[0].Line4;<br />
+}<br />
+else<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'Address Validation Returned Other Than Success: ' + vres.ResultCode + <br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ' : ' + vres.Messages.Message[0].Name + ' : ' + vres.Messages.Message[0].Summary;<br />
+}<br />
+</p> 
+</body>
+</html>

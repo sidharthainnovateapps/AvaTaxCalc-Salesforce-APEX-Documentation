@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Apex2AvalaraSDK Documentation</title>
+    <link href="../Stylesheets/styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 class="Centered">TaxSvcSoap.IsAuthorized API</h1>
+<p>
+Signature: TaxSvc.IsAuthorizedResult TaxSvcSoap.IsAuthorized('operation','operation2',...,'operationN');<br /><br />
+
+The TaxSvcSoap.IsAuthorized API is used to validate credentials, internet connection, availability and 
+authorization to utilize one or more of the Avalara TaxSvc Service operations.  Argument is a comma delimited list of 
+operation names.<br /><br />
+A Successful call with valid credentials and a list of valid operations returns a list of those operations the 
+account is authorized to use, which may be a subset of the requested operations and account expiration date.  
+For security, never returns any operations other than the ones specifically requested.</p><hr />
+<p class="CodeSample">
+<b>Example:</b><br /><br />
+AVASFSDK.TaxSvc.TaxSvcSoap taxSvc =<br />
+&nbsp&nbsp&nbsp&nbsp new AVASFSDK.TaxSvc.TaxSvcSoap('https://development.avalara.net');<br />
+taxSvc.Security.UsernameToken.Username = '[UserName/AcountNum Here]';<br />
+taxSvc.Security.UsernameToken.Password = '[Password/LicenseKey Here]';<br />
+taxSvc.Profile.Client = 'TaxSvcIsAuthorizedDemo,1,0';<br />
+AVASFSDK.TaxSvc.IsAuthorizedResult iares = null;<br />
+String SampleResult = '';<br />
+<br />
+try<br /> 
+{<br />
+&nbsp&nbsp&nbsp&nbsp iares = taxSvc.IsAuthorized('IsAuthorized,GetTax');<br />
+}<br />
+catch(Exception ex)<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'TaxSvc Test Connect Excepted: ' + ex.getmessage();<br />
+&nbsp&nbsp&nbsp&nbsp return null;<br />
+}<br />
+if(iares.ResultCode == 'Success')<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'TaxSvc Test Connect Successful. Account Expiration: ' + iares.Expires.format();<br />
+}<br />
+else<br />
+{<br />
+&nbsp&nbsp&nbsp&nbsp SampleResult = 'taxSvc Test Connect Returned Other Than Success: ' + iares.ResultCode +<br />
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ' : ' + iares.Messages.Message[0].Name + ' : ' + iares.Messages.Message[0].Summary;<br />
+}<br />
+</p> 
+</body>
+</html>
