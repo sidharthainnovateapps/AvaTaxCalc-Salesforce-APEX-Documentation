@@ -8,8 +8,8 @@
 <body>
 <h1 class="Centered">AddressSvcSoap.ArrayOfValidAddress Class</h1>
 <p>
-The ArrayOfValidAddress class is a wrapper for an array of 0 or more ValidAddress objects.  Not Meant to be instantiated directly, and is 
-instead embedded in the ValidateResult Class, as returned from the API AddresssvcSoap.Validate.
+The ArrayOfValidAddress class is a wrapper for an array of zero or more ValidAddress objects.  It is not meant to be instantiated directly, and is 
+instead embedded in the ValidateResult class, as returned from the API AddresssvcSoap.Validate. Note that the service will currently not return more than one ValidAddress for a given request - ValidateResult will only contain a ValidAddress if a single, non-ambiguous address validation match was found by the service.
 </p>
 <p class="CodeSample">
 global class ArrayOfValidAddress<br />

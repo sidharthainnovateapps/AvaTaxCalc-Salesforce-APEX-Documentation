@@ -10,10 +10,10 @@
 <p>
 Signature: AddressSvc.ValidateResult AddressSvcSoap.Validate(AddressSvc.ValidateRequest);<br /><br />
 The AddressSvcSoap.Validate API is used to validate, complete and standardize (per US Postal Service or Canada Post standards) a given address.  
-A Successful call means the address is valid, and the standardized and completed address is returned.  A non-Successful call returns information 
+A successful call means there was a single, non-ambiguous valid address match found, and the standardized and completed address is returned.  A non-successful call returns information 
 about why the address could not be validated in the messages array of the result object.<br /><br />
 Parameter is an object of type AddressSvc.ValidateRequest, which contains the address to be checked.  Returns a ValidateResult  
-object containing the result code, standardized address ( if success ) and error messages (if not success).</p><hr />
+object containing the result code, standardized address (if successful) and error messages (if not successful).</p><hr />
 <p class="CodeSample">
 <b>Example:</b><br /><br />
 AVASFSDK.AddressSvc.AddressSvcSoap addressSvc =<br />

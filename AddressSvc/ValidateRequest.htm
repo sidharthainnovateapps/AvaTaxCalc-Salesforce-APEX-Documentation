@@ -8,10 +8,10 @@
 <body>
 <h1 class="Centered">AddressSvc.ValidateRequest Class</h1>
 <p>
-An object of type AddressSvc.ValidateRequest is what is passed as an argument to the AddressSvcSoap.Validate method.  
+An object of type AddressSvc.ValidateRequest is the sole argument of the AddressSvcSoap.Validate method.  
 Contains the Address to be verified, standardized, and completed.<br /><br />
 NOTE: The Taxability field may be used to determine whether the TaxSvc GetTax method can successfully calculate tax 
-with this address. This is an expensive option that will slow down the response and Taxability should only be used 
+with this address. This is an resource-expensive option that will slow down the response. As such, Taxability should only be used 
 (set to true) when necessary. 
 </p>
 <p class="CodeSample">

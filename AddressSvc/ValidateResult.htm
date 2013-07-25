@@ -8,11 +8,11 @@
 <body>
 <h1 class="Centered">AddressSvc.ValidateResult Class</h1>
 <p>
-The ValidateResult Object is the return value of the AddressSvcSoap.Validate API.  ResultCode indicates success or failure of the operation
-(Possible Values for ResultCode are: 'Success','Error','Warning','Exception').  If the Result is success, ValidAddresses[0] contains the
-validated, standardized and completed address.  If other than Success, Messages[0] contains information abut the call to Validate failed.  
+The ValidateResult object is the return value of the AddressSvcSoap.Validate API.  ResultCode indicates success or failure of the operation
+(Possible Values for ResultCode are: 'Success','Error','Warning','Exception').  If the Result is 'Success', ValidAddresses[0] contains the
+validated, standardized and completed address.  Note that there will never be more than one valid address returned. If other than 'Success', Messages[0] contains information about why the call to failed.  
 <br /><br />NOTE: The Taxable field is set to true if and only if the ValidateRequest.Taxability field of the ValidateRequest object was 
-set to true prior to calling AddressSvcSoap.Validate.
+set to true when calling AddressSvcSoap.Validate.
 </p>
 <p class="CodeSample">
 global class ValidateResult<br />

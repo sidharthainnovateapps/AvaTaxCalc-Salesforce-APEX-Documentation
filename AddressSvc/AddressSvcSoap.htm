@@ -8,11 +8,11 @@
 <body>
 <h1 class="Centered">AddressSvcSoap Class</h1>
 <p>
-The AddressSvcSoap Object is the proxy interface for the Avalara Address Service.  The constructor takes one string
-argument, which is the service URL your method calls will reference.  All Address Service APIs are methods of the 
+The AddressSvcSoap Object is the proxy interface for the Avalara address validation service.  The constructor takes one string
+argument: the service URL.  All address service APIs are methods of the 
 AddressSvcSoap object.<br /><br />
 Note that the embedded AddressSvc.Profile and AddressSvc.Security objects are instantiated automatically when the 
-AddressSvcSoap Object is instantiated (no need to "new" Profile or Security).
+AddressSvcSoap object is instantiated (no need to create a "new" Profile or Security, or to assign these values explicitly).
 </p>
 <p class="CodeSample">
 global class AddressSvcSoap<br />{<br />

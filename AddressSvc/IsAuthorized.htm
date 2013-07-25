@@ -10,11 +10,11 @@
 <p>
 Signature: AddressSvc.IsAuthorizedResult AddressSvcSoap.IsAuthorized('operation','operation2',...,'operationN');<br /><br />
 The AddressSvcSoap.IsAuthorized API is used to validate credentials, internet connection, availability and 
-authorization to utilize one or more of the Avalara AddressSvc Service operations.  Argument is a comma delimited list of 
+authorization to utilize one or more of the Avalara AddressSvc service operations.  The argument is a comma delimited list of 
 operation names.<br /><br />
-A Successful call with valid credentials and a list of valid operations returns a list of those operations the 
-account is authorized to use, which may be a subset of the requested operations and account expiration date.  
-For security, never returns any operations other than the ones specifically requested.</p><hr />
+A successful call with valid credentials and a list of valid operations returns a list of those specified operations the 
+account is authorized to use and account expiration date.  
+For security, this method never returns any operations other than the ones specifically requested.</p><hr />
 <p class="CodeSample">
 <b>Example:</b><br /><br />
 AVASFSDK.AddressSvc.AddressSvcSoap addressSvc =<br />
